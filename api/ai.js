@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
       headers: { 'content-type': 'application/json', 'x-goog-api-key': key },
       body: JSON.stringify({
         contents: [{ role: 'user', parts }],
-        generationConfig: Object.assign({ maxOutputTokens: 800, thinkingConfig: { thinkingBudget: 0 } },
+           generationConfig: Object.assign({ maxOutputTokens: 800 },
           json ? { responseMimeType: 'application/json' } : {})
       })
     });
