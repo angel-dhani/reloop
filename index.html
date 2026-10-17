@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ReLoop – AI Waste Agent</title>
+<style>
+:root{--bg:#f3f6ef;--card:#ffffff;--ink:#112a1c;--mut:#66786c;--ac:#1f8a4c;--ac2:#e6f3e9;--hero1:#16643a;--hero2:#2fa463;--bd:#e1e9e1;--on:#fff;--sh:0 8px 28px rgba(17,42,28,.08);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1510;--card:#15211a;--ink:#e8f2ec;--mut:#9ab0a2;--ac:#4cc27f;--ac2:#1c3225;--hero1:#0f3d24;--hero2:#1d7a47;--bd:#26382d;--on:#07140c;--sh:0 8px 28px rgba(0,0,0,.35);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0c1510;--card:#15211a;--ink:#e8f2ec;--mut:#9ab0a2;--ac:#4cc27f;--ac2:#1c3225;--hero1:#0f3d24;--hero2:#1d7a47;--bd:#26382d;--on:#07140c;--sh:0 8px 28px rgba(0,0,0,.35);color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
+.hero{background:linear-gradient(135deg,var(--hero1),var(--hero2));color:#fff;padding:28px 22px 64px;border-radius:0 0 32px 32px}
+.hero h1{margin:0;font-size:30px;letter-spacing:-.5px}.hero p{margin:6px 0 0;opacity:.88;font-size:15px}
+.w{max-width:560px;margin:-44px auto 0;padding:0 18px}
+.card{background:var(--card);border-radius:22px;padding:22px;box-shadow:var(--sh);margin-bottom:18px}
+.card h3{margin:0 0 12px;font-size:17px}
+textarea{width:100%;min-height:84px;border:1.5px solid var(--bd);border-radius:16px;padding:14px;background:var(--bg);color:var(--ink);font:inherit;resize:none;outline:0}
+textarea:focus{border-color:var(--ac)}
+.chips{display:flex;gap:8px;overflow-x:auto;margin:14px -4px 18px;padding:2px 4px}
+.chip{flex:none;border:0;background:var(--ac2);color:var(--ink);border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer}
+.row{display:flex;gap:10px}
+.go{flex:1;background:var(--ac);color:var(--on);border:0;border-radius:16px;padding:15px;font:700 16px inherit;cursor:pointer}
+.go:disabled{opacity:.5}
+.ph{display:flex;align-items:center;justify-content:center;width:54px;border-radius:16px;background:var(--ac2);cursor:pointer;font-size:22px}
+.st{margin:12px 0 0;color:var(--mut);font-size:14px;min-height:20px}
+.badge{display:inline-block;background:var(--ac);color:var(--on);border-radius:12px;padding:6px 14px;font-weight:700;font-size:15px}
+.item{font-size:22px;font-weight:700;margin:12px 0 2px}.mut{color:var(--mut);font-size:14px}
+.sec{margin-top:20px}.sec h4{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+.step{display:flex;gap:12px;margin:10px 0}.step i{flex:none;width:26px;height:26px;border-radius:50%;background:var(--ac2);color:var(--ac);font:700 13px/26px system-ui;text-align:center}
+.tip{background:var(--ac2);border-radius:16px;padding:14px 16px}
+.imp{display:flex;gap:10px}.imp div{flex:1;background:var(--bg);border-radius:16px;padding:14px;text-align:center}.imp b{display:block;font-size:20px;color:var(--ac)}
+.ring{display:flex;align-items:center;gap:22px}.ring svg{flex:none}
+.big{font-size:44px;font-weight:800;line-height:1}
+.bar{margin:14px 0}.bar div{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.bar span{display:block;height:9px;border-radius:9px;background:var(--bd);overflow:hidden}.bar span i{display:block;height:100%;background:var(--ac);border-radius:9px}
+.bg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.bg div{text-align:center;padding:14px 6px;border-radius:18px;background:var(--bg);font-size:12px;opacity:.45}.bg div.on{opacity:1;background:var(--ac2)}.bg em{display:block;font-size:28px;font-style:normal}
+.log{list-style:none;margin:0;padding:0}.log li{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid var(--bd);font-size:15px}.log li:first-child{border:0}
+.msgs{display:flex;flex-direction:column;gap:12px;max-height:46vh;overflow-y:auto;margin-bottom:14px}
+.m{max-width:86%;padding:12px 15px;border-radius:18px;font-size:15px}.m.u{align-self:flex-end;background:var(--ac);color:var(--on);border-bottom-right-radius:6px}.m.a{background:var(--ac2);border-bottom-left-radius:6px}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--bd);display:flex;justify-content:center;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));z-index:5}
+nav button{flex:1;max-width:160px;border:0;background:none;color:var(--mut);font:600 12px inherit;padding:6px;cursor:pointer;border-radius:14px}nav button em{display:block;font-size:22px;font-style:normal}nav button.on{color:var(--ac);background:var(--ac2)}
+.pg{display:none}.pg.on{display:block}.foot{text-align:center;color:var(--mut);font-size:12px;padding:6px 18px}
+</style></head><body>
+<div class="hero"><h1>Re<span style="opacity:.85">Loop</span> ♻️</h1><p>Don’t just sort it. Close the loop.</p></div>
+<div class="w">
+
+<section class="pg on" id="p-scan">
+ <div class="card">
+  <h3>What are you throwing away?</h3>
+  <textarea id="in" placeholder="e.g. greasy pizza box, old phone charger…"></textarea>
+  <div class="chips" id="chips"></div>
+  <div class="row"><button class="go" id="go">Ask ReLoop</button><label class="ph" id="phl">📷<input id="ph" type="file" accept="image/*" hidden></label></div>
+  <p class="st" id="st"></p>
+ </div>
+ <div class="card" id="res" hidden></div>
+</section>
+
+<section class="pg" id="p-ins">
+ <div class="card"><div class="ring"><svg width="116" height="116" viewBox="0 0 116 116"><circle cx="58" cy="58" r="50" fill="none" stroke="var(--bd)" stroke-width="11"/><circle id="arc" cx="58" cy="58" r="50" fill="none" stroke="var(--ac)" stroke-width="11" stroke-linecap="round" stroke-dasharray="0 314" transform="rotate(-90 58 58)"/></svg>
+ <div><div class="big" id="score">0</div><div class="mut">Loop Score</div><div class="mut" id="lvl" style="margin-top:6px"></div></div></div></div>
+ <div class="card"><div class="imp"><div><b id="n">0</b><span class="mut">items</span></div><div><b id="c">0 g</b><span class="mut">CO₂ saved</span></div><div><b id="km">0</b><span class="mut">km not driven</span></div></div></div>
+ <div class="card"><h3>Weekly challenge</h3><div class="bar"><div><span style="all:unset">Sort 5 items</span><b id="chp">0/5</b></div><span><i id="chb" style="width:0"></i></span></div></div>
+ <div class="card"><h3>Where your waste went</h3><div id="bars"><span class="mut">Nothing sorted yet.</span></div></div>
+ <div class="card"><h3>Badges</h3><div class="bg" id="bgs"></div></div>
+ <div class="card"><h3>History</h3><ul class="log" id="log"><li class="mut">Your sorted items appear here.</li></ul></div>
+</section>
+
+<section class="pg" id="p-coach">
+ <div class="card"><h3>Ask the ReLoop coach</h3><div class="msgs" id="msgs"><div class="m a">Hi! Ask me anything: where to donate old clothes, how to start a compost, or how to cut plastic at home.</div></div>
+ <div class="row"><textarea id="ci" style="min-height:52px" placeholder="Type your question…"></textarea><button class="go" id="cs" style="flex:none;padding:0 20px">Send</button></div></div>
+</section>
+
+<p class="foot">Estimates are indicative. Follow local municipal rules for hazardous waste.</p>
+</div>
+<nav><button class="on" data-t="scan"><em>📸</em>Scan</button><button data-t="ins"><em>📊</em>Insights</button><button data-t="coach"><em>💬</em>Coach</button></nav>
+<script>
+const $=id=>document.getElementById(id);
+const DEST={compost:["🌱","Compost"],recycle:["♻️","Recycle"],reuse:["🔁","Reuse or upcycle"],ewaste:["🔌","E‑waste drop‑off"],hazard:["⚠️","Hazardous"],landfill:["🗑️","Landfill (last resort)"]};
+const EX=["Greasy pizza box","Old phone charger","Banana peels","Glass jam jar","Used batteries","Chips packet"];
+const DEMO={pizza:{item:"Greasy pizza box",material:"Cardboard + food oil",destination:"compost",prep:["Tear off the clean lid and recycle it","Tear the greasy base into small pieces","Add to the wet-waste bin"],upcycle:"Use the clean lid as a drawing board.",co2_saved_g:120,why:"Grease ruins paper recycling, but oiled cardboard composts well.",confidence:.9},
+charger:{item:"Old phone charger",material:"Copper, plastic, circuit board",destination:"ewaste",prep:["Wind the cable neatly","Keep it dry and separate","Hand it to an authorised e-waste collector"],upcycle:"Donate it if it still works.",co2_saved_g:450,why:"Cables hold recoverable copper and must stay out of mixed waste.",confidence:.95},
+banana:{item:"Banana peels",material:"Organic",destination:"compost",prep:["Chop into small pieces","Mix with dry leaves","Add to the compost bin"],upcycle:"Soak peels in water for a plant fertiliser tea.",co2_saved_g:80,why:"Wet organics make methane in landfills but feed soil in compost.",confidence:.97},
+jar:{item:"Glass jam jar",material:"Glass",destination:"reuse",prep:["Rinse and remove the label","Dry fully","Keep for storage"],upcycle:"Turn it into a spice jar or a candle holder.",co2_saved_g:300,why:"Reusing glass saves far more energy than melting it.",confidence:.95}};
+const S={items:[]};
+$("chips").innerHTML=EX.map(e=>`<button class="chip">${e}</button>`).join("");
+$("chips").onclick=e=>{if(e.target.className==="chip")$("in").value=e.target.textContent};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function tab(t){document.querySelectorAll(".pg").forEach(x=>x.classList.toggle("on",x.id==="p-"+t));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));window.scrollTo(0,0)}
+document.querySelector("nav").onclick=e=>{const b=e.target.closest("button");if(b)tab(b.dataset.t)};window.__tab=tab;
+function show(r){
+ const d=DEST[r.destination]?r.destination:"landfill",co=Math.round(+r.co2_saved_g||0);
+ $("res").hidden=false;
+ $("res").innerHTML=`<span class="badge">${DEST[d][0]} ${DEST[d][1]}</span><div class="item">${esc(r.item)}</div><div class="mut">${esc(r.material)} · ${Math.round((r.confidence||0)*100)}% confident</div>
+ <p style="margin:14px 0 0">${esc(r.why)}</p>
+ <div class="sec"><h4>What to do</h4>${(r.prep||[]).map((p,i)=>`<div class="step"><i>${i+1}</i><div>${esc(p)}</div></div>`).join("")}</div>
+ <div class="sec"><h4>Better idea</h4><div class="tip">💡 ${esc(r.upcycle)}</div></div>
+ <div class="sec"><h4>Your impact</h4><div class="imp"><div><b>${co} g</b>CO₂ saved</div><div><b>${(co/120).toFixed(1)}</b>km not driven</div></div></div>`;
+ S.items.push({item:r.item,d,co});stats();
+ $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function stats(){
+ const it=S.items,n=it.length,div=it.filter(i=>i.d!=="landfill").length,co=it.reduce((a,i)=>a+i.co,0);
+ const sc=n?Math.min(100,Math.round(div/n*70+Math.min(n,10)*3)):0;
+ $("score").textContent=sc;$("arc").setAttribute("stroke-dasharray",`${sc*3.14} 314`);
+ $("lvl").textContent=sc>=80?"Loop Master":sc>=50?"Eco Explorer":n?"Getting started":"Sort your first item";
+ $("n").textContent=n;$("c").textContent=co+" g";$("km").textContent=(co/120).toFixed(1);
+ $("chp").textContent=Math.min(n,5)+"/5";$("chb").style.width=Math.min(n,5)*20+"%";
+ const cnt={};it.forEach(i=>cnt[i.d]=(cnt[i.d]||0)+1);
+ $("bars").innerHTML=n?Object.keys(cnt).map(k=>`<div class="bar"><div><span style="all:unset">${DEST[k][0]} ${DEST[k][1]}</span><b>${cnt[k]}</b></div><span><i style="width:${cnt[k]/n*100}%"></i></span></div>`).join(""):'<span class="mut">Nothing sorted yet.</span>';
+ const B=[["🌟","First sort",n>=1],["🌱","Compost hero",(cnt.compost||0)>=2],["🔌","E‑waste ranger",(cnt.ewaste||0)>=1],["🔁","Upcycler",(cnt.reuse||0)>=1],["🏅","5 sorted",n>=5],["👑","Loop master",sc>=80&&n>=4]];
+ $("bgs").innerHTML=B.map(b=>`<div class="${b[2]?"on":""}"><em>${b[0]}</em>${b[1]}</div>`).join("");
+ $("log").innerHTML=n?it.slice().reverse().map(i=>`<li><span>${esc(i.item)}</span><span class="mut">${DEST[i.d][0]} ${DEST[i.d][1]}</span></li>`).join(""):'<li class="mut">Your sorted items appear here.</li>';
+}
+stats();
+const demoFor=t=>{t=t.toLowerCase();return t.includes("pizza")?DEMO.pizza:t.includes("charger")?DEMO.charger:t.includes("jar")?DEMO.jar:DEMO.banana};
+async function api(body){const r=await fetch("/api/ai",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});if(!r.ok)throw new Error("api "+r.status);return r.json()}
+function toDataURL(f){return new Promise((ok,no)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const k=Math.min(1,1024/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL("image/jpeg",.8))};im.onerror=no;im.src=u})}
+$("go").onclick=async()=>{
+ const t=$("in").value.trim(),f=$("ph").files[0];
+ if(!t&&!f){$("st").textContent="Describe an item or add a photo.";return}
+ $("go").disabled=true;$("st").textContent="ReLoop is thinking…";
+ try{const image=f?await toDataURL(f):null;show(await api({kind:"scan",text:t,image}));$("st").textContent=""}
+ catch(e){show(demoFor(t));$("st").textContent="Demo mode (AI not connected)"}
+ finally{$("go").disabled=false}
+};
+function msg(c,t){const d=document.createElement("div");d.className="m "+c;d.textContent=t;$("msgs").appendChild(d);$("msgs").scrollTop=1e5;return d}
+$("cs").onclick=async()=>{
+ const t=$("ci").value.trim();if(!t)return;$("ci").value="";msg("u",t);const m=msg("a","…");
+ try{const h=S.items.map(i=>i.item+" → "+i.d).join(", ")||"none yet";m.textContent=(await api({kind:"coach",text:t,history:h})).text}
+ catch(e){m.textContent="Demo mode: AI isn’t connected. Tip: donate wearable clothes and recycle the rest as cloth waste."}
+};
+window.__demo=k=>show(DEMO[k]);
+</script></body></html>
